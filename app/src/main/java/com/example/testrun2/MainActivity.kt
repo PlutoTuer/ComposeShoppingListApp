@@ -65,7 +65,7 @@ fun ItemsList(updatedItemsTheUserAdded:List<String>) {
         .fillMaxSize()
     ){
         LazyColumn{
-            items(itemsTheUserAdded){ currentItemInTheList ->
+            items(itemsTheUserAdded.reversed()){ currentItemInTheList ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
