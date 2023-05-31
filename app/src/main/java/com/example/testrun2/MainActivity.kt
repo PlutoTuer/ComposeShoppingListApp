@@ -38,6 +38,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 //TODO: DEVELOPMENT BRANCH
 class MainActivity : ComponentActivity() {
@@ -46,10 +48,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             Column(modifier = Modifier
                 .fillMaxWidth()) {
-
                 val itemsTheUserAdded:List<String> = textInput()
-                Spacer(modifier = Modifier.weight(1f))
                 ItemsList(itemsTheUserAdded)
+
             }
         }
     }
@@ -74,25 +75,20 @@ fun ItemsList(updatedItemsTheUserAdded:List<String>) {
                         modifier = Modifier
                             .align(Alignment.CenterVertically))
                     Spacer(modifier = Modifier.weight(1f))
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                    ){
-                        Button(
-                            onClick = {
-                                      itemsTheUserAdded = itemsTheUserAdded - currentItemInTheList
-                                      },
-                            colors = ButtonDefaults.buttonColors(
-                                Color(255,125,125)
-                            )
-                        ) {
-                            Text(text = "-")
-                        }
+                    Button(
+                        onClick = {
+                            itemsTheUserAdded = itemsTheUserAdded - currentItemInTheList
+                                  },
+                        colors = ButtonDefaults.buttonColors(
+                            Color(255,125,125)
+                        )
+                    ) {
+                        Text(text = "-")
                     }
                 }
             }
         }
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,11 +106,10 @@ fun textInput():List<String> {
     var hasUserClickedTheAddButton by remember {
         mutableStateOf(false)
     }
-
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .size(40.dp)
+            //.fillMaxWidth()
+            //.size(40.dp)
     ) {
         TextField(
             value = input,
@@ -122,28 +117,19 @@ fun textInput():List<String> {
                 input = textTheUserIsTyping
             },
             modifier = Modifier
-                //.fillMaxWidth()
                 .weight(1f)
         )
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-
-        ){
-            Button(
-                onClick = {
-                    if(input.isEmpty()) return@Button
-                    hasUserClickedTheAddButton = true
-                    tempInput = input
-                    input = ""
-                },
-                colors = ButtonDefaults.buttonColors(
-                    Color(125,255,125)
-                )
-            ) {
-                Text(text = "+")
-            }
+        Button(
+            onClick = {
+                if(input.isEmpty()) return@Button
+                hasUserClickedTheAddButton = true
+                tempInput = input
+                input = "" },
+            colors = ButtonDefaults.buttonColors(
+                Color(125,255,125)
+            )
+        ) {
+            Text(text = "+")
         }
     }
     if (hasUserClickedTheAddButton) {
@@ -156,6 +142,9 @@ fun textInput():List<String> {
 @Preview
 @Composable
 fun TextInputPreview() {
-    val itemsTheUserAdded:List<String> = textInput()
-    ItemsList(itemsTheUserAdded)
+    Column(modifier = Modifier
+        .fillMaxWidth()) {
+        val itemsTheUserAdded:List<String> = textInput()
+        ItemsList(itemsTheUserAdded)
+    }
 }
